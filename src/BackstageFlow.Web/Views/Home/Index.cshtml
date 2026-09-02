@@ -1,0 +1,60 @@
+@model DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+    ViewData["PageTitle"] = "Visão geral";
+}
+
+<section class="hero-card">
+    <div>
+        <span class="eyebrow accent">PRÓXIMO EVENTO</span>
+        @if (Model.NextEvent is not null)
+        {
+            <h2>@Model.NextEvent.Name</h2>
+            <p>@Model.NextEvent.Venue · @Model.NextEvent.City</p>
+            <div class="hero-meta">
+                <span>@Model.NextEvent.StartsAt.ToString("dd MMM, HH:mm")</span>
+                <span class="status status-@Model.NextEvent.Status.ToString().ToLowerInvariant()">@Model.NextEvent.Status.GetDisplayName()</span>
+            </div>
+        }
+        else
+        {
+            <h2>Nenhum evento programado</h2>
+            <p>Cadastre um evento para começar a operação.</p>
+        }
+    </div>
+    <div class="hero-art" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+    </div>
+</section>
+
+<section class="stats-grid">
+    <article class="stat-card"><span class="stat-icon purple">◇</span><div><strong>@Model.TotalEvents</strong><span>Eventos</span></div></article>
+    <article class="stat-card"><span class="stat-icon blue">✓</span><div><strong>@Model.ConfirmedArtists</strong><span>Confirmados</span></div></article>
+    <article class="stat-card"><span class="stat-icon orange">⌛</span><div><strong>@Model.AwaitingArrival</strong><span>Aguardando chegada</span></div></article>
+    <article class="stat-card"><span class="stat-icon green">●</span><div><strong>@Model.CheckedInArtists</strong><span>Check-ins realizados</span></div></article>
+</section>
+
+<section class="panel">
+    <div class="panel-header">
+        <div><span class="eyebrow">AGENDA</span><h2>Próximas apresentações</h2></div>
+        <a class="text-link" asp-controller="Schedule" asp-action="Index">Ver agenda completa →</a>
+    </div>
+    @if (Model.UpcomingSchedule.Count == 0)
+    {
+        <div class="empty-inline">Nenhuma apresentação futura cadastrada.</div>
+    }
+    else
+    {
+        <div class="timeline-list">
+            @foreach (ArtistBooking artist in Model.UpcomingSchedule)
+            {
+                <a class="timeline-item" asp-controller="Artists" asp-action="Details" asp-route-id="@artist.Id">
+                    <time><strong>@artist.PerformanceTime.ToString("HH:mm")</strong><span>@artist.PerformanceTime.ToString("dd/MM")</span></time>
+                    <span class="timeline-dot"></span>
+                    <div><strong>@artist.StageName</strong><span>@artist.Event.Name · Camarim @(artist.DressingRoom ?? "-")</span></div>
+                    <span class="status status-@artist.Status.ToString().ToLowerInvariant()">@artist.Status.GetDisplayName()</span>
+                </a>
+            }
+        </div>
+    }
+</section>

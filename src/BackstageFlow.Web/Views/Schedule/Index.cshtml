@@ -1,0 +1,32 @@
+@model ScheduleViewModel
+@{
+    ViewData["Title"] = "Agenda";
+    ViewData["PageTitle"] = "Agenda de apresentações";
+}
+<div class="page-actions"><p>Acompanhe a ordem de chegada e as apresentações.</p></div>
+<form method="get" class="filter-bar compact-filter">
+    <div class="field">
+        <label>Evento</label>
+        <select name="eventId" onchange="this.form.submit()">
+            <option value="">Todos os eventos</option>
+            @foreach (Event item in Model.Events)
+            {
+                if (Model.EventId == item.Id) { <option value="@item.Id" selected>@item.Name</option> }
+                else { <option value="@item.Id">@item.Name</option> }
+            }
+        </select>
+    </div>
+</form>
+
+<section class="schedule-board">
+    @foreach (IGrouping<DateTime, ArtistBooking> day in Model.Artists.GroupBy(item => item.PerformanceTime.Date))
+    {
+        <div class="schedule-day"><div class="day-label"><strong>@day.Key.ToString("dd")</strong><span>@day.Key.ToString("MMM").ToUpperInvariant()<br />@day.Key.ToString("ddd").ToUpperInvariant()</span></div><div class="schedule-items">
+        @foreach (ArtistBooking artist in day)
+        {
+            <a class="schedule-item" asp-controller="Artists" asp-action="Details" asp-route-id="@artist.Id"><time>@artist.PerformanceTime.ToString("HH:mm")</time><span class="schedule-line"></span><div><strong>@artist.StageName</strong><span>@artist.Event.Name · @artist.SetDurationMinutes min · Camarim @(artist.DressingRoom ?? "-")</span></div><span class="status status-@artist.Status.ToString().ToLowerInvariant()">@artist.Status.GetDisplayName()</span></a>
+        }
+        </div></div>
+    }
+    @if (Model.Artists.Count == 0) { <div class="empty-state"><div class="empty-icon">⌚</div><h2>Agenda vazia</h2><p>Adicione artistas e horários para montar a programação.</p></div> }
+</section>

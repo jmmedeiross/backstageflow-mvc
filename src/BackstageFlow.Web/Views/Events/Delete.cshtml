@@ -1,0 +1,6 @@
+@model Event
+@{
+    ViewData["Title"] = "Excluir evento";
+    ViewData["PageTitle"] = "Confirmar exclusão";
+}
+<section class="panel confirm-card"><div class="empty-icon danger">×</div><h2>Excluir @Model.Name?</h2><p>O evento e seus @Model.Artists.Count artista(s) serão removidos. Esta ação não pode ser desfeita.</p><form method="post"><input asp-for="Id" type="hidden" /><div class="form-actions centered"><a class="button button-secondary" asp-action="Details" asp-route-id="@Model.Id">Cancelar</a><button class="button button-danger" type="submit">Excluir evento</button></div></form></section>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Gestão de artistas e operações de eventos." />
+    <title>@ViewData["Title"] - BackstageFlow</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar" id="sidebar">
+            <a class="brand" asp-controller="Home" asp-action="Index">
+                <span class="brand-mark">BF</span>
+                <span>BackstageFlow</span>
+            </a>
+            <p class="sidebar-label">OPERAÇÃO</p>
+            <nav class="nav-list">
+                <a asp-controller="Home" asp-action="Index"><span>◫</span> Dashboard</a>
+                <a asp-controller="Events" asp-action="Index"><span>◇</span> Eventos</a>
+                <a asp-controller="Artists" asp-action="Index"><span>◎</span> Artistas</a>
+                <a asp-controller="Schedule" asp-action="Index"><span>⌚</span> Agenda</a>
+            </nav>
+            <div class="sidebar-note">
+                <strong>Modo demonstração</strong>
+                <span>Dados fictícios para portfólio.</span>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <button class="menu-button" type="button" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+                <div>
+                    <span class="eyebrow">CENTRAL DE PRODUÇÃO</span>
+                    <h1>@(ViewData["PageTitle"] ?? ViewData["Title"])</h1>
+                </div>
+                <a class="button button-primary" asp-controller="Artists" asp-action="Create">+ Adicionar artista</a>
+            </header>
+
+            @if (TempData["Success"] is string success)
+            {
+                <div class="alert alert-success">@success</div>
+            }
+            @if (TempData["Error"] is string error)
+            {
+                <div class="alert alert-error">@error</div>
+            }
+
+            <div class="page-content">
+                @RenderBody()
+            </div>
+        </main>
+    </div>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,11 @@
+@model Event
+@{
+    ViewData["Title"] = "Editar evento";
+    ViewData["PageTitle"] = "Editar evento";
+}
+<form method="post" class="panel form-panel">
+    <input asp-for="Id" type="hidden" />
+    <div class="panel-header"><div><span class="eyebrow">@Model.Name.ToUpperInvariant()</span><h2>Atualizar informações</h2></div></div>
+    <partial name="_Form" model="Model" />
+    <div class="form-actions"><a class="button button-secondary" asp-action="Details" asp-route-id="@Model.Id">Cancelar</a><button class="button button-primary" type="submit">Salvar alterações</button></div>
+</form>

@@ -1,0 +1,33 @@
+@model IReadOnlyList<Event>
+@{
+    ViewData["Title"] = "Eventos";
+    ViewData["PageTitle"] = "Eventos";
+}
+<div class="page-actions">
+    <p>Organize datas, locais e equipes artísticas.</p>
+    <a class="button button-primary" asp-action="Create">+ Novo evento</a>
+</div>
+
+<div class="card-grid">
+    @foreach (Event item in Model)
+    {
+        <article class="event-card">
+            <div class="event-date"><strong>@item.StartsAt.ToString("dd")</strong><span>@item.StartsAt.ToString("MMM").ToUpperInvariant()</span></div>
+            <div class="event-card-body">
+                <span class="status status-@item.Status.ToString().ToLowerInvariant()">@item.Status.GetDisplayName()</span>
+                <h2>@item.Name</h2>
+                <p>@item.Venue · @item.City</p>
+                <div class="event-details"><span>@item.StartsAt.ToString("HH:mm")–@item.EndsAt.ToString("HH:mm")</span><span>@item.Artists.Count artista(s)</span></div>
+                <div class="inline-actions">
+                    <a class="button button-secondary" asp-action="Details" asp-route-id="@item.Id">Abrir operação</a>
+                    <a class="icon-link" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+                </div>
+            </div>
+        </article>
+    }
+</div>
+
+@if (Model.Count == 0)
+{
+    <section class="empty-state"><div class="empty-icon">◇</div><h2>Nenhum evento cadastrado</h2><p>Crie o primeiro evento para organizar a programação.</p><a class="button button-primary" asp-action="Create">Criar evento</a></section>
+}

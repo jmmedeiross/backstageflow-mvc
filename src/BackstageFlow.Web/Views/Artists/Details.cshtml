@@ -1,0 +1,23 @@
+@model ArtistBooking
+@{
+    ViewData["Title"] = Model.StageName;
+    ViewData["PageTitle"] = Model.StageName;
+}
+<section class="artist-profile">
+    <div class="profile-heading"><span class="avatar avatar-large">@Model.StageName[0]</span><div><span class="status status-@Model.Status.ToString().ToLowerInvariant()">@Model.Status.GetDisplayName()</span><h2>@Model.StageName</h2><p>@Model.Event.Name · @Model.Event.Venue</p></div></div>
+    <div class="inline-actions">
+        @if (Model.CheckedInAtUtc is null && Model.Status is not ArtistStatus.Cancelled and not ArtistStatus.Completed)
+        {
+            <form method="post" asp-action="CheckIn" asp-route-id="@Model.Id"><input type="hidden" name="returnUrl" value="@Context.Request.Path" /><button class="button button-checkin" type="submit">Realizar check-in</button></form>
+        }
+        <a class="button button-secondary" asp-action="Edit" asp-route-id="@Model.Id">Editar</a>
+    </div>
+</section>
+
+<section class="detail-grid">
+    <article class="panel"><span class="eyebrow">PROGRAMAÇÃO</span><dl class="info-list"><div><dt>Chegada</dt><dd>@Model.ArrivalTime.ToString("dd/MM/yyyy, HH:mm")</dd></div><div><dt>Apresentação</dt><dd>@Model.PerformanceTime.ToString("dd/MM/yyyy, HH:mm")</dd></div><div><dt>Duração</dt><dd>@Model.SetDurationMinutes minutos</dd></div><div><dt>Camarim</dt><dd>@(Model.DressingRoom ?? "Não definido")</dd></div>@if (Model.CheckedInAtUtc.HasValue) { <div><dt>Check-in</dt><dd>@Model.CheckedInAtUtc.Value.ToLocalTime().ToString("dd/MM/yyyy, HH:mm")</dd></div> }</dl></article>
+    <article class="panel"><span class="eyebrow">CONTATO</span><dl class="info-list"><div><dt>Responsável</dt><dd>@(Model.ContactName ?? "Não informado")</dd></div><div><dt>E-mail</dt><dd>@(Model.ContactEmail ?? "Não informado")</dd></div><div><dt>Telefone</dt><dd>@(Model.Phone ?? "Não informado")</dd></div></dl></article>
+    <article class="panel"><span class="eyebrow">HOSPITALIDADE</span><p class="long-text">@(Model.HospitalityNotes ?? "Nenhuma necessidade registrada.")</p></article>
+    <article class="panel"><span class="eyebrow">TRANSPORTE</span><p class="long-text">@(Model.TransportDetails ?? "Nenhum transporte registrado.")</p></article>
+</section>
+<div class="danger-zone"><div><strong>Remover artista</strong><span>Retira o artista deste evento.</span></div><a class="button button-danger" asp-action="Delete" asp-route-id="@Model.Id">Excluir</a></div>

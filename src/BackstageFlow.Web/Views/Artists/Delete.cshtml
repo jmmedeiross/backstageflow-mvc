@@ -1,0 +1,6 @@
+@model ArtistBooking
+@{
+    ViewData["Title"] = "Remover artista";
+    ViewData["PageTitle"] = "Confirmar exclusão";
+}
+<section class="panel confirm-card"><div class="empty-icon danger">×</div><h2>Remover @Model.StageName?</h2><p>O artista será retirado do evento @Model.Event.Name.</p><form method="post"><input asp-for="Id" type="hidden" /><div class="form-actions centered"><a class="button button-secondary" asp-action="Details" asp-route-id="@Model.Id">Cancelar</a><button class="button button-danger" type="submit">Remover artista</button></div></form></section>

@@ -1,0 +1,29 @@
+@model Event
+@{
+    ViewData["Title"] = Model.Name;
+    ViewData["PageTitle"] = Model.Name;
+}
+<section class="detail-hero">
+    <div><span class="status status-@Model.Status.ToString().ToLowerInvariant()">@Model.Status.GetDisplayName()</span><h2>@Model.Venue</h2><p>@Model.City · @Model.StartsAt.ToString("dd/MM/yyyy, HH:mm") até @Model.EndsAt.ToString("dd/MM/yyyy, HH:mm")</p></div>
+    <div class="inline-actions"><a class="button button-secondary" asp-action="Edit" asp-route-id="@Model.Id">Editar evento</a><a class="button button-primary" asp-controller="Artists" asp-action="Create" asp-route-eventId="@Model.Id">+ Adicionar artista</a></div>
+</section>
+
+<section class="stats-grid compact">
+    <article class="stat-card"><span class="stat-icon purple">◎</span><div><strong>@Model.Artists.Count</strong><span>Artistas</span></div></article>
+    <article class="stat-card"><span class="stat-icon green">●</span><div><strong>@Model.Artists.Count(a => a.CheckedInAtUtc != null)</strong><span>Presentes</span></div></article>
+    <article class="stat-card"><span class="stat-icon orange">⌛</span><div><strong>@Model.Artists.Count(a => a.Status is ArtistStatus.Invited or ArtistStatus.Confirmed)</strong><span>Aguardando</span></div></article>
+</section>
+
+<section class="panel">
+    <div class="panel-header"><div><span class="eyebrow">LINE-UP</span><h2>Equipe artística</h2></div><a class="text-link" asp-controller="Schedule" asp-action="Index" asp-route-eventId="@Model.Id">Ver agenda →</a></div>
+    <div class="table-wrap">
+        <table><thead><tr><th>Artista</th><th>Chegada</th><th>Apresentação</th><th>Camarim</th><th>Status</th><th></th></tr></thead><tbody>
+        @foreach (ArtistBooking artist in Model.Artists)
+        {
+            <tr><td><a class="strong-link" asp-controller="Artists" asp-action="Details" asp-route-id="@artist.Id">@artist.StageName</a></td><td>@artist.ArrivalTime.ToString("HH:mm")</td><td>@artist.PerformanceTime.ToString("HH:mm")</td><td>@(artist.DressingRoom ?? "-")</td><td><span class="status status-@artist.Status.ToString().ToLowerInvariant()">@artist.Status.GetDisplayName()</span></td><td><a class="icon-link" asp-controller="Artists" asp-action="Edit" asp-route-id="@artist.Id">Editar</a></td></tr>
+        }
+        </tbody></table>
+    </div>
+    @if (Model.Artists.Count == 0) { <div class="empty-inline">Nenhum artista adicionado.</div> }
+</section>
+<div class="danger-zone"><div><strong>Remover evento</strong><span>Também remove os artistas vinculados.</span></div><a class="button button-danger" asp-action="Delete" asp-route-id="@Model.Id">Excluir</a></div>

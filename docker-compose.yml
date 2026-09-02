@@ -1,0 +1,16 @@
+services:
+  backstageflow:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: backstageflow
+    ports:
+      - "5090:8080"
+    environment:
+      ConnectionStrings__DefaultConnection: "Data Source=/app/data/backstageflow.db"
+    volumes:
+      - backstageflow-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  backstageflow-data:

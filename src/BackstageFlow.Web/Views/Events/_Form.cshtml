@@ -1,0 +1,11 @@
+@model Event
+<div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+<div class="form-grid">
+    <div class="field field-wide"><label asp-for="Name"></label><input asp-for="Name" placeholder="Ex.: Festival Horizonte" /><span asp-validation-for="Name"></span></div>
+    <div class="field"><label asp-for="Venue"></label><input asp-for="Venue" placeholder="Nome do espaço" /><span asp-validation-for="Venue"></span></div>
+    <div class="field"><label asp-for="City"></label><input asp-for="City" placeholder="Cidade" /><span asp-validation-for="City"></span></div>
+    <div class="field"><label asp-for="StartsAt"></label><input asp-for="StartsAt" type="datetime-local" asp-format="{0:yyyy-MM-ddTHH:mm}" /><span asp-validation-for="StartsAt"></span></div>
+    <div class="field"><label asp-for="EndsAt"></label><input asp-for="EndsAt" type="datetime-local" asp-format="{0:yyyy-MM-ddTHH:mm}" /><span asp-validation-for="EndsAt"></span></div>
+    <div class="field"><label asp-for="Status"></label><select asp-for="Status" asp-items="Html.GetEnumSelectList<EventStatus>()"></select><span asp-validation-for="Status"></span></div>
+    <div class="field field-wide"><label asp-for="Notes"></label><textarea asp-for="Notes" rows="4" placeholder="Informações importantes para a produção"></textarea><span asp-validation-for="Notes"></span></div>
+</div>

@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="src/BackstageFlow.Web/BackstageFlow.Web.csproj" />
+  <Project Path="tests/BackstageFlow.Tests/BackstageFlow.Tests.csproj" />
+</Solution>

@@ -1,0 +1,60 @@
+@model ArtistListViewModel
+@{
+    ViewData["Title"] = "Artistas";
+    ViewData["PageTitle"] = "Artistas e equipes";
+}
+<div class="page-actions"><p>Centralize contatos, horários, camarins e check-ins.</p><a class="button button-primary" asp-action="Create">+ Adicionar artista</a></div>
+
+<form method="get" class="filter-bar">
+    <div class="field"><label>Buscar</label><input name="search" value="@Model.Search" placeholder="Nome artístico" /></div>
+    <div class="field">
+        <label>Evento</label>
+        <select name="eventId">
+            <option value="">Todos os eventos</option>
+            @foreach (Event item in Model.Events)
+            {
+                if (Model.EventId == item.Id) { <option value="@item.Id" selected>@item.Name</option> }
+                else { <option value="@item.Id">@item.Name</option> }
+            }
+        </select>
+    </div>
+    <div class="field">
+        <label>Status</label>
+        <select name="status">
+            <option value="">Todos os status</option>
+            @foreach (ArtistStatus status in Enum.GetValues<ArtistStatus>())
+            {
+                if (Model.Status == status) { <option value="@status" selected>@status.GetDisplayName()</option> }
+                else { <option value="@status">@status.GetDisplayName()</option> }
+            }
+        </select>
+    </div>
+    <button class="button button-secondary" type="submit">Filtrar</button>
+    <a class="text-link" asp-action="Index">Limpar</a>
+</form>
+
+<section class="panel table-panel">
+    <div class="table-wrap">
+        <table>
+            <thead><tr><th>Artista</th><th>Evento</th><th>Chegada</th><th>Apresentação</th><th>Status</th><th>Ação</th></tr></thead>
+            <tbody>
+            @foreach (ArtistBooking artist in Model.Artists)
+            {
+                <tr>
+                    <td><a class="artist-cell" asp-action="Details" asp-route-id="@artist.Id"><span class="avatar">@artist.StageName[0]</span><span><strong>@artist.StageName</strong><small>Camarim @(artist.DressingRoom ?? "-")</small></span></a></td>
+                    <td>@artist.Event.Name</td><td>@artist.ArrivalTime.ToString("dd/MM HH:mm")</td><td>@artist.PerformanceTime.ToString("dd/MM HH:mm")</td>
+                    <td><span class="status status-@artist.Status.ToString().ToLowerInvariant()">@artist.Status.GetDisplayName()</span></td>
+                    <td>
+                        @if (artist.CheckedInAtUtc is null && artist.Status is not ArtistStatus.Cancelled and not ArtistStatus.Completed)
+                        {
+                            <form method="post" asp-action="CheckIn" asp-route-id="@artist.Id" class="inline-form"><input type="hidden" name="returnUrl" value="@(Context.Request.Path + Context.Request.QueryString)" /><button class="button button-checkin" type="submit">Check-in</button></form>
+                        }
+                        else { <a class="icon-link" asp-action="Details" asp-route-id="@artist.Id">Detalhes</a> }
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    @if (Model.Artists.Count == 0) { <div class="empty-inline">Nenhum artista encontrado com estes filtros.</div> }
+</section>

@@ -1,0 +1,10 @@
+@model ArtistBooking
+@{
+    ViewData["Title"] = "Adicionar artista";
+    ViewData["PageTitle"] = "Adicionar artista";
+}
+<form method="post" class="panel form-panel">
+    <div class="panel-header"><div><span class="eyebrow">NOVO ARTISTA</span><h2>Informações de produção</h2></div></div>
+    <partial name="_Form" model="Model" />
+    <div class="form-actions"><a class="button button-secondary" asp-action="Index">Cancelar</a><button class="button button-primary" type="submit">Salvar artista</button></div>
+</form>

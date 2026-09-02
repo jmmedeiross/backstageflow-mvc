@@ -1,0 +1,15 @@
+@model ErrorViewModel
+@{
+    ViewData["Title"] = "Erro";
+    ViewData["PageTitle"] = "Algo não saiu como esperado";
+}
+<section class="empty-state">
+    <div class="empty-icon">!</div>
+    <h2>Não foi possível concluir a operação.</h2>
+    <p>Tente novamente. Se o problema continuar, verifique o terminal da aplicação.</p>
+    @if (Model.ShowRequestId)
+    {
+        <small>Identificador: @Model.RequestId</small>
+    }
+    <a class="button button-primary" asp-controller="Home" asp-action="Index">Voltar ao dashboard</a>
+</section>

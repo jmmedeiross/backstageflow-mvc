@@ -1,0 +1,16 @@
+@model ArtistBooking
+<div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+<div class="form-grid">
+    <div class="field"><label asp-for="StageName"></label><input asp-for="StageName" placeholder="Nome utilizado no evento" /><span asp-validation-for="StageName"></span></div>
+    <div class="field"><label asp-for="EventId"></label><select asp-for="EventId" asp-items="ViewBag.Events"><option value="">Selecione</option></select><span asp-validation-for="EventId"></span></div>
+    <div class="field"><label asp-for="ContactName"></label><input asp-for="ContactName" /><span asp-validation-for="ContactName"></span></div>
+    <div class="field"><label asp-for="ContactEmail"></label><input asp-for="ContactEmail" type="email" /><span asp-validation-for="ContactEmail"></span></div>
+    <div class="field"><label asp-for="Phone"></label><input asp-for="Phone" /><span asp-validation-for="Phone"></span></div>
+    <div class="field"><label>Status</label>@Html.DropDownList("selectedStatus", Html.GetEnumSelectList<ArtistStatus>())</div>
+    <div class="field"><label asp-for="ArrivalTime"></label><input asp-for="ArrivalTime" type="datetime-local" asp-format="{0:yyyy-MM-ddTHH:mm}" /><span asp-validation-for="ArrivalTime"></span></div>
+    <div class="field"><label asp-for="PerformanceTime"></label><input asp-for="PerformanceTime" type="datetime-local" asp-format="{0:yyyy-MM-ddTHH:mm}" /><span asp-validation-for="PerformanceTime"></span></div>
+    <div class="field"><label asp-for="SetDurationMinutes"></label><input asp-for="SetDurationMinutes" type="number" /><span asp-validation-for="SetDurationMinutes"></span></div>
+    <div class="field"><label asp-for="DressingRoom"></label><input asp-for="DressingRoom" placeholder="Ex.: Camarim A" /><span asp-validation-for="DressingRoom"></span></div>
+    <div class="field field-wide"><label asp-for="HospitalityNotes"></label><textarea asp-for="HospitalityNotes" rows="3" placeholder="Água, alimentação, toalhas e outras necessidades"></textarea><span asp-validation-for="HospitalityNotes"></span></div>
+    <div class="field field-wide"><label asp-for="TransportDetails"></label><textarea asp-for="TransportDetails" rows="3" placeholder="Horários, motorista e ponto de encontro"></textarea><span asp-validation-for="TransportDetails"></span></div>
+</div>
