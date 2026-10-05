@@ -4,6 +4,18 @@ Sistema web para organizar a operação de artistas em eventos. O projeto centra
 
 > Projeto de portfólio inspirado em rotinas reais de produção de eventos. Todos os eventos, artistas e contatos incluídos na demonstração são fictícios.
 
+## Capturas de tela
+
+Capturas da aplicação executada localmente com os dados fictícios de demonstração.
+
+### Dashboard
+
+![Dashboard do BackstageFlow](docs/images/dashboard.jpg)
+
+### Artistas e equipes
+
+![Gestão de artistas do BackstageFlow](docs/images/artistas.jpg)
+
 ## Funcionalidades
 
 - Dashboard com indicadores da operação e próximas apresentações
